@@ -12,6 +12,12 @@
                 <td>{{ produit.id }}</td>
             </tr>
             <tr>
+                <th>Image</th>
+                <td>
+                    <img src= {{ asset('uploads/' ~ produit.imageFilename )}} width="100%" />
+                </td>
+            </tr>
+            <tr>
                 <th>Nom</th>
                 <td>{{ produit.nom }}</td>
             </tr>

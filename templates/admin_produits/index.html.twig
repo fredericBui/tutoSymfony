@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Image</th>
                 <th>Nom</th>
                 <th>Description</th>
                 <th>Prix</th>
@@ -19,6 +20,9 @@
         {% for produit in produits %}
             <tr>
                 <td>{{ produit.id }}</td>
+                <td>
+                    <img src= {{ asset('uploads/' ~ produit.imageFilename )}} width="100%" />
+                </td>
                 <td>{{ produit.nom }}</td>
                 <td>{{ produit.description }}</td>
                 <td>{{ produit.prix }}</td>
