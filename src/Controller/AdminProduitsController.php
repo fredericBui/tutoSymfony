@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Produits;
 use App\Form\ProduitsType;
 use App\Repository\ProduitsRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,13 +30,20 @@ class AdminProduitsController extends AbstractController
     /**
      * @Route("/new", name="admin_produits_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager): Response
     {
         $produit = new Produits();
         $form = $this->createForm(ProduitsType::class, $produit);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $imageFileName = $fileUploader->upload($imageFile);
+                $produit->setImageFilename($imageFileName);
+            }
+
             $entityManager->persist($produit);
             $entityManager->flush();
 
@@ -61,12 +69,19 @@ class AdminProduitsController extends AbstractController
     /**
      * @Route("/{id}/edit", name="admin_produits_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Produits $produit, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, FileUploader $fileUploader, Produits $produit, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ProduitsType::class, $produit);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $imageFileName = $fileUploader->upload($imageFile);
+                $produit->setImageFilename($imageFileName);
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('admin_produits_index', [], Response::HTTP_SEE_OTHER);
