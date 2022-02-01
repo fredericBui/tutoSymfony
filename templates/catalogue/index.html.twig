@@ -5,35 +5,26 @@
 {% block body %}
     <h1>Produits index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Prix</th>
-                <th>ImageFilename</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
         {% for produit in produits %}
-            <tr>
-                <td>{{ produit.id }}</td>
-                <td>{{ produit.nom }}</td>
-                <td>{{ produit.description }}</td>
-                <td>{{ produit.prix }}</td>
-                <td>{{ produit.imageFilename }}</td>
-                <td>
-                    <a href="{{ path('catalogue_show', {'id': produit.id}) }}">show</a>
-                </td>
-            </tr>
+
+        <div class="card mb-3" >
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                <img src= {{ asset('uploads/' ~ produit.imageFilename )}} width="100%" />
+                </div>
+                <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ produit.nom }}</h5>
+                    <p class="card-text">{{ produit.description }}</p>
+                    <p class="card-text">{{ produit.prix }} euros</p>
+                    <a href="{{ path('catalogue_show', {'id': produit.id}) }}" class="btn btn-primary">Voir</a>
+                </div>
+                </div>
+            </div>
+        </div>
+
         {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
+            <p>Aucun produit trouvé dans le catalogue.</p>
         {% endfor %}
-        </tbody>
-    </table>
 
 {% endblock %}
