@@ -54,9 +54,13 @@ class ProfileArticlesController extends AbstractController
      */
     public function show(Articles $article): Response
     {
-        return $this->render('profile_articles/show.html.twig', [
-            'article' => $article,
-        ]);
+        if($article->getAuteur()==$this->getUser()){
+            return $this->render('profile_articles/show.html.twig', [
+                'article' => $article,
+            ]);
+        }
+        
+        return $this->redirectToRoute('profile_articles_index', [], Response::HTTP_SEE_OTHER);
     }
 
     /**
@@ -64,19 +68,24 @@ class ProfileArticlesController extends AbstractController
      */
     public function edit(Request $request, Articles $article, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(ArticlesType::class, $article);
-        $form->handleRequest($request);
+        if($article->getAuteur()==$this->getUser()){
+            $form = $this->createForm(ArticlesType::class, $article);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager->flush();
 
-            return $this->redirectToRoute('profile_articles_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('profile_articles_index', [], Response::HTTP_SEE_OTHER);
+            }
+
+            return $this->renderForm('profile_articles/edit.html.twig', [
+                'article' => $article,
+                'form' => $form,
+            ]);
         }
 
-        return $this->renderForm('profile_articles/edit.html.twig', [
-            'article' => $article,
-            'form' => $form,
-        ]);
+        return $this->redirectToRoute('profile_articles_index', [], Response::HTTP_SEE_OTHER);
+        
     }
 
     /**
@@ -84,11 +93,13 @@ class ProfileArticlesController extends AbstractController
      */
     public function delete(Request $request, Articles $article, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($article);
-            $entityManager->flush();
+        if($article->getAuteur()==$this->getUser()){
+            if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
+                $entityManager->remove($article);
+                $entityManager->flush();
+            }
         }
-
+        
         return $this->redirectToRoute('profile_articles_index', [], Response::HTTP_SEE_OTHER);
     }
 }
