@@ -11,7 +11,6 @@
                 <th>Id</th>
                 <th>Nom</th>
                 <th>Description</th>
-                <th>Auteur</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -21,7 +20,6 @@
                 <td>{{ article.id }}</td>
                 <td>{{ article.nom }}</td>
                 <td>{{ article.description }}</td>
-                <td>{{ auteur }}</td>
                 <td>
                     <a href="{{ path('profile_articles_show', {'id': article.id}) }}">show</a>
                     <a href="{{ path('profile_articles_edit', {'id': article.id}) }}">edit</a>
