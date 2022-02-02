@@ -20,6 +20,25 @@
       <li class="nav-item">
         <a class="nav-link" href={{path("app_login")}}>Connexion</a>
       </li>
+      <!--Espace utilisateur-->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+          Espace utilisateur
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href={{path("profile_show")}}>Mon profil</a>
+          <a class="dropdown-item" href={{path("profile_articles_index")}}>Mes articles</a>
+        </div>
+      </li>
+      <!--Espace administrateur-->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+          Espace administrateur
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href={{path("admin_produits_index")}}>Gestion de produit</a>
+        </div>
+      </li>
     </ul>
   </div>
 </nav>
