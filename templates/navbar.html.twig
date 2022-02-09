@@ -21,6 +21,7 @@
         <a class="nav-link" href={{path("app_login")}}>Connexion</a>
       </li>
       <!--Espace utilisateur-->
+      {% if is_granted('ROLE_USER')%}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
           Espace utilisateur
@@ -30,7 +31,9 @@
           <a class="dropdown-item" href={{path("profile_articles_index")}}>Mes articles</a>
         </div>
       </li>
+      {% endif %}
       <!--Espace administrateur-->
+      {% if is_granted('ROLE_ADMIN')%}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
           Espace administrateur
@@ -39,6 +42,7 @@
           <a class="dropdown-item" href={{path("admin_produits_index")}}>Gestion de produit</a>
         </div>
       </li>
+      {% endif %}
     </ul>
   </div>
 </nav>
